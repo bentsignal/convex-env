@@ -21,10 +21,10 @@ jobs:
         uses: ./.github/setup
 
       - name: Lint
-        run: pnpm run lint
+        run: bun run lint
 
       - name: Format
-        run: pnpm run fmt
+        run: bun run fmt
 
       - name: Build
-        run: pnpm run build
+        run: bun run build

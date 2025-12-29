@@ -24,10 +24,17 @@
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.2",
     "@changesets/cli": "^2.29.8",
+    "@types/node": "^25.0.3",
     "oxfmt": "^0.20.0",
     "oxlint": "^1.35.0",
     "oxlint-tsgolint": "^0.10.0",
     "tsdown": "^0.18.1",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "convex-helpers": "^0.1.108"
+  },
+  "peerDependencies": {
+    "convex": ">=1.20.0"
   }
 }
