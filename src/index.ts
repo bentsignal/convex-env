@@ -2,16 +2,43 @@ import type { AllowedValidators, InferredOuput } from "./types";
 import { validate } from "convex-helpers/validators";
 import { transformed } from "./transform";
 
+/**
+ *
+ * @param entries - The names of the environment variables and their validators
+ * @param inputEnv (Optional) pass in a record of the values to use, defaults to process.env if not provided
+ * @returns An object with the same keys as the entries, but with the validated typesafe values
+ *
+ * @example
+ * const env = createEnv({
+ *   FOO: v.string(),
+ *   BAR: v.number(),
+ *   BAZ: v.boolean(),
+ * });
+ *
+ * @example
+ * const env = createEnv({
+ *   FOO: v.string(),
+ *   BAR: v.number(),
+ *   BAZ: v.boolean(),
+ * }, {
+ *   FOO: process.env.FOO,
+ *   BAR: process.env.BAR,
+ *   BAZ: process.env.BAZ,
+ * });
+ *
+ */
 const createEnv = <T extends Record<string, AllowedValidators>>(
-  entries: T
+  entries: T,
+  inputEnv?: Partial<Record<keyof T, string | undefined>>
 ): {
   [K in keyof T]: InferredOuput<T[K]>;
 } => {
+  const env = inputEnv ?? process.env;
   return Object.keys(entries)
     .map((key) => {
       try {
         const validator = entries[key];
-        const envValue = process.env[key as string];
+        const envValue = env[key as string];
         if (validator.isOptional === "required" && envValue === undefined) {
           throw new Error("Variable is required but not found in env");
         }
