@@ -1,15 +1,10 @@
 import { createEnv } from "./index";
 import { v } from "convex/values";
 
-// const env = createEnv({
-//   FOO: { value: process.env.FOO, validator: v.string() },
-//   BAR: { value: process.env.BAR, validator: v.string() },
-// });
-
 const env = createEnv({
-  FOO: v.string(),
-  BAR: v.string(),
-  BAZ: v.optional(v.number()),
+  FOO: v.optional(v.string()),
+  BAR: v.number(),
+  BAZ: v.boolean(),
 });
 
 console.log(env);
