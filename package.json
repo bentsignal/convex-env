@@ -19,6 +19,7 @@
     "lint": "oxlint --type-aware --type-check",
     "lint:fix": "oxlint --type-aware --type-check --fix && oxfmt",
     "fmt": "oxfmt",
+    "test": "vitest",
     "release": "changeset publish"
   },
   "devDependencies": {
@@ -29,7 +30,8 @@
     "oxlint": "^1.35.0",
     "oxlint-tsgolint": "^0.10.0",
     "tsdown": "^0.18.1",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
   },
   "dependencies": {
     "convex-helpers": "^0.1.108"

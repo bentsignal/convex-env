@@ -7,6 +7,7 @@ const transformed = (
   validator: AllowedValidators
 ): InferredOuput<typeof validator> => {
   if (value === undefined) return undefined;
+  if (value.trim() === "") throw new Error("Value is empty");
   if (validator.kind === v.string().kind) return value;
   if (validator.kind === v.number().kind) {
     return validateAndTransformNumber(value);
@@ -18,7 +19,6 @@ const transformed = (
 };
 
 const validateAndTransformNumber = (value: string): number => {
-  if (value.trim() === "") throw new Error("Value is empty");
   if (Number.isNaN(Number(value))) throw new Error("Value is not a number");
   if (Number.isFinite(Number(value)) === false)
     throw new Error("Value is not a finite number");
@@ -26,7 +26,6 @@ const validateAndTransformNumber = (value: string): number => {
 };
 
 const validateAndTransformBoolean = (value: string): boolean => {
-  if (value.trim() === "") throw new Error("Value is empty");
   if (value.trim().toLowerCase() === "true") return true;
   if (value.trim().toLowerCase() === "false") return false;
   throw new Error("Value is not a valid boolean");
