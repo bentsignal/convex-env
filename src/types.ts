@@ -1,3 +1,15 @@
-import type { Validator, Infer } from "convex/values";
+import type {
+  Infer,
+  VOptional,
+  VString,
+  VFloat64,
+  VBoolean,
+} from "convex/values";
 
-export type InferredOuput<V extends Validator<any, any, any>> = Infer<V>;
+type AllowedPrimitiveValidators = VString | VFloat64 | VBoolean;
+type AllowedOptionalValidators = VOptional<AllowedPrimitiveValidators>;
+type AllowedValidators = AllowedPrimitiveValidators | AllowedOptionalValidators;
+
+type InferredOuput<V extends AllowedValidators> = Infer<V>;
+
+export type { AllowedValidators, InferredOuput };

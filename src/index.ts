@@ -1,14 +1,13 @@
+import type { AllowedValidators, InferredOuput } from "./types";
 import { validate } from "convex-helpers/validators";
-import type { Validator } from "convex/values";
-import type { InferredOuput } from "./types";
 import { transformed } from "./transform";
 
-const createEnv = <T extends Record<string, Validator<any, any, any>>>(
+const createEnv = <T extends Record<string, AllowedValidators>>(
   entries: T
 ): {
   [K in keyof T]: InferredOuput<T[K]>;
 } => {
-  return (Object.keys(entries) as (keyof T)[])
+  return Object.keys(entries)
     .map((key) => {
       try {
         const validator = entries[key];

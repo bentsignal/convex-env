@@ -2,7 +2,7 @@ import { createEnv } from "./index";
 import { v } from "convex/values";
 
 const env = createEnv({
-  FOO: v.optional(v.string()),
+  FOO: v.string(),
   BAR: v.number(),
   BAZ: v.boolean(),
 });
