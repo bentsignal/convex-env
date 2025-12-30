@@ -14,6 +14,7 @@ const transformed = (
   if (validator.kind === v.boolean().kind) {
     return validateAndTransformBoolean(value);
   }
+  throw new Error("Validator is not supported");
 };
 
 const validateAndTransformNumber = (value: string): number => {
