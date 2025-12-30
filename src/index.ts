@@ -13,7 +13,7 @@ const createEnv = <T extends Record<string, AllowedValidators>>(
         const validator = entries[key];
         const envValue = process.env[key as string];
         if (validator.isOptional === "required" && envValue === undefined) {
-          throw new Error("Variable is required but not set");
+          throw new Error("Variable is required but not found in env");
         }
         const transformedValue = transformed(envValue, validator);
         const valueIsInvalid = validate(validator, transformedValue) === false;
