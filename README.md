@@ -44,7 +44,7 @@ yarn add convex-env
 ### Usage
 
 ```typescript
-// convex.env.ts
+// convex/convex.env.ts
 
 import { createEnv } from "convex-env";
 import { v } from "convex/values";
@@ -62,7 +62,7 @@ export const env = createEnv({
 Then access them anywhere in Convex.
 
 ```typescript
-// auth.ts
+// convex/auth.ts
 
 import { env } from "./convex.env";
 
@@ -82,7 +82,7 @@ export const createAuth = (ctx: GenericCtx<DataModel>) => {
 You can also pass values manually
 
 ```typescript
-// convex.env.ts
+// convex/convex.env.ts
 
 import { createEnv } from "convex-env";
 import { v } from "convex/values";
