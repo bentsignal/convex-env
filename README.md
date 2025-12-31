@@ -7,7 +7,7 @@
 
 ### Overview
 
-If you've ever used [t3-env](https://github.com/t3-oss/t3-env), its basically that, but native to [Convex](https://www.convex.dev).
+If you've ever used [t3-env](https://github.com/t3-oss/t3-env), it's basically that, but native to [Convex](https://www.convex.dev).
 
 Validators currently supported:
 
@@ -109,7 +109,7 @@ export const env = createEnv(
 
 ### Why use it?
 
-User defined values on the `process.env` object will always be typed `string | undefined`. If you want to store anything other than a string, you have to cast it at each use and hope that you entred the value correctly in `.env`
+User defined values on the `process.env` object will always be typed `string | undefined`. If you want to store anything other than a string, you have to cast it at each use and hope that you entered the value correctly in `.env`
 
 This package gives you the reassurance that when you use an environment variable in your code, it will:
 
