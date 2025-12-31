@@ -119,5 +119,5 @@ This package gives you the reassurance that when you use an environment variable
 It can also prevent you from shipping bugs to production. If an environment variable is missing or doesn't match its validator, your deployment to Convex will fail.
 
 <p align="center">
-  <img src="https://b9sa6juqtj.ufs.sh/f/WmevHvqCEmRaetBLb0NWmSZIsPhkweq8TtVxHraXLjAdgyEC" alt="Convex Env build failure example" style="max-width: 700px; width: 100%;">
+  <img src="https://b9sa6juqtj.ufs.sh/f/WmevHvqCEmRai7ZRq7VC2K8VNp5TJWgmuZAHxryoLzDhek3B" alt="Convex Env build failure example" style="max-width: 700px; width: 100%;">
 </p>
