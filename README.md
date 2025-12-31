@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://b9sa6juqtj.ufs.sh/f/WmevHvqCEmRaetBLb0NWmSZIsPhkweq8TtVxHraXLjAdgyEC" alt="Convex Env Logo" style="max-width: 500px; width: 100%;">
+</p>
+
 <h2 align="center">Convex Env</h2>
 <p align="center">Typesafe access to environment variables in Convex</p>
 
@@ -59,6 +63,9 @@ Then access them anywhere in Convex.
 
 ```typescript
 // auth.ts
+
+import { env } from "./convex.env";
+
 export const createAuth = (ctx: GenericCtx<DataModel>) => {
   return betterAuth({
     baseURL: env.CONVEX_SITE_URL,
