@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://b9sa6juqtj.ufs.sh/f/WmevHvqCEmRaetBLb0NWmSZIsPhkweq8TtVxHraXLjAdgyEC" alt="Convex Env Logo" style="max-width: 500px; width: 100%;">
+  <img src="https://b9sa6juqtj.ufs.sh/f/WmevHvqCEmRajVTwwtXKdHb7pg9oz0hCWQNZntX6PAcxi34L" alt="Convex Env Example" style="max-width: 700px; width: 100%;">
 </p>
 
 <h2 align="center">Convex Env</h2>
@@ -15,7 +15,7 @@ Validators currently supported:
 - v.number()
 - v.boolean()
 
-you can use `v.optional()` on _any supported validator_, see [example](#usage) below
+you can use `v.optional()` on _any_ supported validator, see [example](#usage) below
 
 <span style="color: red;"><strong>IMPORTANT</strong></span>: The <code>env</code> object from <code>createEnv</code> should only be used in the Convex runtime, the values on it will not be accessible client side.
 
@@ -106,3 +106,18 @@ export const env = createEnv(
   }
 );
 ```
+
+### Why use it?
+
+User defined values on the `process.env` object will always be typed `string | undefined`. If you want to store anything other than a string, you have to cast it at each use and hope that you typed the value correctly in `.env`
+
+This package gives you the reassurance that when you use an environment variable in your code, it will:
+
+- Actually be there
+- Will be the type you expect it to be
+
+It can also prevent you from shipping bugs to production. If an environment variable is missing or doesn't match its validator, your deployment to Convex will fail.
+
+<p align="center">
+  <img src="https://b9sa6juqtj.ufs.sh/f/WmevHvqCEmRaetBLb0NWmSZIsPhkweq8TtVxHraXLjAdgyEC" alt="Convex Env build failure example" style="max-width: 700px; width: 100%;">
+</p>
