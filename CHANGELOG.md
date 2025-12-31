@@ -1,5 +1,11 @@
 # convex-env
 
+## 1.0.2
+
+### Patch Changes
+
+- [`edb703f`](https://github.com/bentsignal/convex-env/commit/edb703fbbb348f8b0fdc32d34e5ac715f3848e48) Thanks [@bentsignal](https://github.com/bentsignal)! - Update docs
+
 ## 1.0.1
 
 ### Patch Changes

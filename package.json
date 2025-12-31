@@ -1,7 +1,7 @@
 {
   "name": "convex-env",
   "type": "module",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Typesafe access to environment variables in Convex",
   "exports": {
     ".": "./dist/index.mjs",
