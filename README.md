@@ -109,12 +109,12 @@ export const env = createEnv(
 
 ### Why use it?
 
-User defined values on the `process.env` object will always be typed `string | undefined`. If you want to store anything other than a string, you have to cast it at each use and hope that you typed the value correctly in `.env`
+User defined values on the `process.env` object will always be typed `string | undefined`. If you want to store anything other than a string, you have to cast it at each use and hope that you entred the value correctly in `.env`
 
 This package gives you the reassurance that when you use an environment variable in your code, it will:
 
 - Actually be there
-- Will be the type you expect it to be
+- Be the type you expect it to be
 
 It can also prevent you from shipping bugs to production. If an environment variable is missing or doesn't match its validator, your deployment to Convex will fail.
 
