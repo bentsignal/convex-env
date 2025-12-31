@@ -2,11 +2,17 @@
   "name": "convex-env",
   "type": "module",
   "version": "1.0.2",
+  "license": "MIT",
   "description": "Typesafe access to environment variables in Convex",
   "exports": {
     ".": "./dist/index.mjs",
     "./package.json": "./package.json"
   },
+  "keywords": [
+    "convex",
+    "env",
+    "environment variables"
+  ],
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.mts",
