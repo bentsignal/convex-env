@@ -3,10 +3,14 @@ import { validate } from "convex-helpers/validators";
 import { transformed } from "./transform";
 
 /**
+ * WARNING: The object returned by `createEnv` should only be accessed within the Convex runtime.
+ * The values on the returned object will NOT be accessible  client side.
  *
  * @param entries - The names of the environment variables and their validators
  * @param inputEnv (Optional) pass in a record of the values to use, defaults to process.env if not provided
  * @returns An object with the same keys as the entries, but with the validated typesafe values
+ *
+ * @public
  *
  * @example
  * const env = createEnv({
