@@ -4,8 +4,9 @@
 
 ### Major Changes
 
-- [`65fc030`](https://github.com/bentsignal/convex-env/commit/65fc030013151842a5f2d8e221fad9150fad7d67) Thanks [@bentsignal](https://github.com/bentsignal)! - - To manually pass in values, you must use the schema and values objects (see README for example)
-  - Created separate `verifyEnv` function to verify existence and type of variables separately from env creation. To use this, pass `skipValidation: true` to `createEnv` (see README for example)
+- [`65fc030`](https://github.com/bentsignal/convex-env/commit/65fc030013151842a5f2d8e221fad9150fad7d67) Thanks [@bentsignal](https://github.com/bentsignal)!
+- To manually pass in values, you must use the schema and values objects (see README for example)
+- Created separate `verifyEnv` function to verify existence and type of variables separately from env creation. To use this, pass `skipValidation: true` to `createEnv` (see README for example)
 
 ## 1.0.2
 
