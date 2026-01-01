@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 import { v } from "convex/values";
-import { createEnv } from "./index";
+import { createEnv, verifyEnv } from "./index";
 
 test("basic usage with process.env", async () => {
   process.env = { STR: "hello", NUM: "42", BOOL: "true" };
@@ -18,20 +18,34 @@ test("basic usage with process.env", async () => {
   });
 });
 
+test("missing required variable with process.env", async () => {
+  process.env = { STR: "hello" };
+  expect(() =>
+    createEnv({
+      schema: {
+        STR: v.string(),
+        NUM: v.number(),
+      },
+    })
+  ).toThrow(
+    "Error creating environment variable NUM: Variable is required but not found in env"
+  );
+});
+
 test("basic usage with explicit values passed in", async () => {
-  const env = createEnv(
-    {
+  const env = createEnv({
+    schema: {
       STR: v.string(),
       NUM: v.number(),
       BOOL: v.boolean(),
       OPT: v.optional(v.string()),
     },
-    {
+    values: {
       STR: "hello",
       NUM: "42",
       BOOL: "true",
-    }
-  );
+    },
+  });
   expect(env).toMatchObject({
     STR: "hello",
     NUM: 42,
@@ -40,17 +54,17 @@ test("basic usage with explicit values passed in", async () => {
   });
 });
 
-test("required variable is missing", async () => {
+test("required variable is missing with values passed in", async () => {
   expect(() =>
-    createEnv(
-      {
+    createEnv({
+      schema: {
         FOO: v.string(),
         BAR: v.string(),
       },
-      {
+      values: {
         BAR: "Hello",
-      }
-    )
+      },
+    })
   ).toThrow(
     "Error creating environment variable FOO: Variable is required but not found in env"
   );
@@ -58,28 +72,60 @@ test("required variable is missing", async () => {
 
 test("passing in empty string", async () => {
   expect(() =>
-    createEnv(
-      {
+    createEnv({
+      schema: {
         NUM: v.string(),
       },
-      {
+      values: {
         NUM: "   ",
-      }
-    )
+      },
+    })
   ).toThrow("Error creating environment variable NUM: Value is empty");
 });
 
 test("invalid boolean string", async () => {
   expect(() =>
-    createEnv(
-      {
+    createEnv({
+      schema: {
         NUM: v.boolean(),
       },
-      {
+      values: {
         NUM: "truth",
-      }
-    )
+      },
+    })
   ).toThrow(
     "Error creating environment variable NUM: Value is not a valid boolean"
+  );
+});
+
+test("skip validation with nothing wrong", async () => {
+  process.env = { STR: "hello", NUM: "42" };
+  const schema = {
+    STR: v.string(),
+    NUM: v.number(),
+  };
+  expect(() =>
+    createEnv({ schema, options: { skipValidation: true } })
+  ).not.toThrow();
+  expect(() => verifyEnv(schema)).not.toThrow();
+});
+
+test("skip validation with missing required variable", async () => {
+  process.env = { STR: "hello", NUM: "42" };
+  const schema = {
+    STR: v.string(),
+    NUM: v.number(),
+    BOOL: v.boolean(),
+  };
+  expect(() =>
+    createEnv({
+      schema,
+      options: {
+        skipValidation: true,
+      },
+    })
+  ).not.toThrow();
+  expect(() => verifyEnv(schema)).toThrow(
+    "Error verifying environment variable BOOL: Variable is required but not found in env"
   );
 });

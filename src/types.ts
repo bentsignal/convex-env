@@ -12,4 +12,10 @@ type AllowedValidators = AllowedPrimitiveValidators | AllowedOptionalValidators;
 
 type InferredOuput<V extends AllowedValidators> = Infer<V>;
 
-export type { AllowedValidators, InferredOuput };
+type Values<Schema> = Partial<Record<keyof Schema, string | undefined>>;
+
+type CreateEnvOptions = {
+  skipValidation?: boolean;
+};
+
+export type { AllowedValidators, InferredOuput, Values, CreateEnvOptions };
