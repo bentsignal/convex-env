@@ -1,18 +1,18 @@
 import type { InferredOuput, AllowedValidators } from "./types";
 
-import { v } from "convex/values";
-
 const transformed = (
   value: string | undefined,
   validator: AllowedValidators
 ): InferredOuput<typeof validator> => {
   if (value === undefined) return undefined;
   if (value.trim() === "") throw new Error("Value is empty");
-  if (validator.kind === v.string().kind) return value;
-  if (validator.kind === v.number().kind) {
+  if (validator.kind === "union") return value;
+  if (validator.kind === "literal") return value;
+  if (validator.kind === "string") return value;
+  if (validator.kind === "float64") {
     return validateAndTransformNumber(value);
   }
-  if (validator.kind === v.boolean().kind) {
+  if (validator.kind === "boolean") {
     return validateAndTransformBoolean(value);
   }
   throw new Error("Validator is not supported");

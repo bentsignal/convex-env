@@ -3,18 +3,25 @@ import { v } from "convex/values";
 import { createEnv, verifyEnv } from "./index";
 
 test("basic usage with process.env", async () => {
-  process.env = { STR: "hello", NUM: "42", BOOL: "true" };
+  process.env = {
+    STR: "hello",
+    NUM: "42",
+    BOOL: "true",
+    ENVIRONMENT: "development",
+  };
   const env = createEnv({
     STR: v.string(),
     NUM: v.number(),
     BOOL: v.boolean(),
     OPT: v.optional(v.string()),
+    ENVIRONMENT: v.union(v.literal("development"), v.literal("production")),
   });
   expect(env).toMatchObject({
     STR: "hello",
     NUM: 42,
     BOOL: true,
     OPT: undefined,
+    ENVIRONMENT: "development",
   });
 });
 
@@ -127,5 +134,31 @@ test("skip validation with missing required variable", async () => {
   ).not.toThrow();
   expect(() => verifyEnv(schema)).toThrow(
     "Error verifying environment variable BOOL: Variable is required but not found in env"
+  );
+});
+
+test("union validator with missing required variable", async () => {
+  process.env = { STR: "hello", NUM: "42" };
+  expect(() =>
+    createEnv({
+      STR: v.string(),
+      NUM: v.number(),
+      ENVIRONMENT: v.union(v.literal("development"), v.literal("production")),
+    })
+  ).toThrow(
+    "Error creating environment variable ENVIRONMENT: Variable is required but not found in env"
+  );
+});
+
+test("union validator with invalid value", async () => {
+  process.env = { STR: "hello", NUM: "42", ENVIRONMENT: "test" };
+  expect(() =>
+    createEnv({
+      STR: v.string(),
+      NUM: v.number(),
+      ENVIRONMENT: v.union(v.literal("development"), v.literal("production")),
+    })
+  ).toThrow(
+    "Error creating environment variable ENVIRONMENT: Variable failed validation"
   );
 });

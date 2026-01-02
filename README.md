@@ -14,8 +14,9 @@ Validators currently supported:
 - v.string()
 - v.number()
 - v.boolean()
+- v.union() + v.literal() (strings only)
 
-You can use `v.optional()` on _any_ supported validator, see [example](#usage) below
+You can use `v.optional()` on _any_ supported validator, see [examples](#usage) below
 
 <span style="color: red;"><strong>IMPORTANT</strong></span>: The <code>env</code> object from <code>createEnv</code> should only be used in the Convex runtime, the values on it will not be accessible client-side.
 
@@ -50,6 +51,7 @@ import { createEnv } from "convex-env";
 import { v } from "convex/values";
 
 export const env = createEnv({
+  ENVIRONMENT: v.union(v.literal("development"), v.literal("production")),
   CONVEX_SITE_URL: v.string(),
   BETTER_AUTH_SECRET: v.string(),
   GOOGLE_CLIENT_ID: v.string(),
@@ -93,6 +95,7 @@ export const env = createEnv({
     MAX_REQUESTS_PER_USER: v.number(),
     DEBUG_MODE: v.optional(v.boolean()),
   },
+  // optional, defaults to process.env
   values: {
     CONVEX_SITE_URL: process.env.CONVEX_SITE_URL,
     MAX_REQUESTS_PER_USER: process.env.MAX_REQUESTS_PER_USER,
@@ -117,12 +120,6 @@ export const schema = {
 
 export const env = createEnv({
   schema,
-  // optional, defaults to process.env
-  values: {
-    CONVEX_SITE_URL: process.env.CONVEX_SITE_URL,
-    MAX_REQUESTS_PER_USER: process.env.MAX_REQUESTS_PER_USER,
-    DEBUG_MODE: process.env.DEBUG_MODE,
-  },
   options: {
     skipValidation: true,
   },
