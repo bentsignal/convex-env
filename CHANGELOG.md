@@ -1,5 +1,11 @@
 # convex-env
 
+## 2.2.0
+
+### Minor Changes
+
+- [`e565dec`](https://github.com/bentsignal/convex-env/commit/e565decf6f143c3f8d3338fef746b86b65f91b4b) Thanks [@bentsignal](https://github.com/bentsignal)! - Include CONVEX_SITE_URL and CONVEX_CLOUD_URL in env object automatically
+
 ## 2.1.0
 
 ### Minor Changes
