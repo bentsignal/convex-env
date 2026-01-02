@@ -1,5 +1,11 @@
 # convex-env
 
+## 2.1.0
+
+### Minor Changes
+
+- [`18ab480`](https://github.com/bentsignal/convex-env/commit/18ab4805db41804e0cac89e5b8fe76b3d38bcd2e) Thanks [@bentsignal](https://github.com/bentsignal)! - Added support for unions of string literals
+
 ## 2.0.0
 
 ### Major Changes
