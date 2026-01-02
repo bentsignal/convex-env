@@ -2,12 +2,17 @@ import { expect, test } from "vitest";
 import { v } from "convex/values";
 import { createEnv, verifyEnv } from "./index";
 
+const siteUrl = "https://convex-env.convex.site";
+const cloudUrl = "https://convex-env.convex.cloud";
+
 test("basic usage with process.env", async () => {
   process.env = {
     STR: "hello",
     NUM: "42",
     BOOL: "true",
     ENVIRONMENT: "development",
+    CONVEX_SITE_URL: siteUrl,
+    CONVEX_CLOUD_URL: cloudUrl,
   };
   const env = createEnv({
     STR: v.string(),
@@ -22,6 +27,8 @@ test("basic usage with process.env", async () => {
     BOOL: true,
     OPT: undefined,
     ENVIRONMENT: "development",
+    CONVEX_SITE_URL: siteUrl,
+    CONVEX_CLOUD_URL: cloudUrl,
   });
 });
 
@@ -160,5 +167,32 @@ test("union validator with invalid value", async () => {
     })
   ).toThrow(
     "Error creating environment variable ENVIRONMENT: Variable failed validation"
+  );
+});
+
+test("cannot override CONVEX_SITE_URL or CONVEX_CLOUD_URL", async () => {
+  expect(() =>
+    createEnv({
+      schema: {
+        CONVEX_SITE_URL: v.string(),
+      },
+      values: {
+        CONVEX_SITE_URL: siteUrl,
+      },
+    })
+  ).toThrow(
+    "Error creating environment variable CONVEX_SITE_URL: Cannot override CONVEX_SITE_URL or CONVEX_CLOUD_URL"
+  );
+  expect(() =>
+    createEnv({
+      schema: {
+        CONVEX_CLOUD_URL: v.string(),
+      },
+      values: {
+        CONVEX_CLOUD_URL: cloudUrl,
+      },
+    })
+  ).toThrow(
+    "Error creating environment variable CONVEX_CLOUD_URL: Cannot override CONVEX_SITE_URL or CONVEX_CLOUD_URL"
   );
 });

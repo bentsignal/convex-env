@@ -21,6 +21,7 @@ import { transformed } from "./transform";
  *   FOO: v.string(),
  *   BAR: v.number(),
  *   BAZ: v.boolean(),
+ *   FIZZ: v.union(v.literal("development"), v.literal("production")),
  * });
  *
  * @example
@@ -29,11 +30,13 @@ import { transformed } from "./transform";
  *     FOO: v.string(),
  *     BAR: v.number(),
  *     BAZ: v.optional(v.boolean()),
+ *     FIZZ: v.union(v.literal("development"), v.literal("production")),
  *   },
  *   values: {
  *     FOO: process.env.FOO,
  *     BAR: "42",
  *     BAZ: "true",
+ *     FIZZ: "development",
  *   },
  *   options: {
  *     skipValidation: true,
@@ -47,7 +50,7 @@ const createEnv = <Schema extends Record<string, AllowedValidators>>(
     | { schema: Schema; values?: Values<Schema>; options?: CreateEnvOptions }
 ): {
   [K in keyof Schema]: InferredOuput<Schema[K]>;
-} => {
+} & { CONVEX_SITE_URL: string; CONVEX_CLOUD_URL: string } => {
   let schema: Schema;
   let inputValues: Values<Schema> | undefined;
   let options: CreateEnvOptions | undefined;
@@ -77,6 +80,11 @@ const createEnv = <Schema extends Record<string, AllowedValidators>>(
   return Object.keys(schema)
     .map((key) => {
       try {
+        if (key === "CONVEX_SITE_URL" || key === "CONVEX_CLOUD_URL") {
+          throw new Error(
+            "Cannot override CONVEX_SITE_URL or CONVEX_CLOUD_URL"
+          );
+        }
         const validator = schema[key];
         const envValue = values[key as string];
         if (
@@ -108,7 +116,13 @@ const createEnv = <Schema extends Record<string, AllowedValidators>>(
         acc[key] = value;
         return acc;
       },
-      {} as { [K in keyof Schema]: InferredOuput<Schema[K]> }
+      {
+        CONVEX_SITE_URL: process.env.CONVEX_SITE_URL,
+        CONVEX_CLOUD_URL: process.env.CONVEX_CLOUD_URL,
+      } as { [K in keyof Schema]: InferredOuput<Schema[K]> } & {
+        CONVEX_SITE_URL: string;
+        CONVEX_CLOUD_URL: string;
+      }
     );
 };
 
