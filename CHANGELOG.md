@@ -1,5 +1,11 @@
 # convex-env
 
+## 2.3.0
+
+### Minor Changes
+
+- [`58484c8`](https://github.com/bentsignal/convex-env/commit/58484c8819e8985f49bdc3c00b6d985d810918be) Thanks [@bentsignal](https://github.com/bentsignal)! - added presets, import from `convex-env/presets`. see [README](./README.md) for examples.
+
 ## 2.2.0
 
 ### Minor Changes
