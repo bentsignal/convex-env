@@ -19,6 +19,7 @@ Validators currently supported:
 You can use `v.optional()` on _any_ supported validator, see [examples](#usage) below
 
 <span style="color: red;"><strong>IMPORTANT</strong></span>: The <code>env</code> object from <code>createEnv</code> should only be used in the Convex runtime, the values on it will not be accessible client-side.
+MA
 
 ### Installation
 
@@ -48,15 +49,16 @@ yarn add convex-env
 // convex/convex.env.ts
 
 import { createEnv } from "convex-env";
+import { betterAuth, oAuth } from "convex-env/presets";
 import { v } from "convex/values";
 
 export const env = createEnv({
+  ...betterAuth,
+  ...oAuth.google,
   ENVIRONMENT: v.union(v.literal("development"), v.literal("production")),
-  CONVEX_SITE_URL: v.string(),
-  BETTER_AUTH_SECRET: v.string(),
-  GOOGLE_CLIENT_ID: v.string(),
+  OPENAI_API_KEY: v.string(),
   GOOGLE_CLIENT_SECRET: v.string(),
-  MAX_REQUESTS_PER_USER: v.number(),
+  FREE_REQUESTS_PER_USER: v.number(),
   DEBUG_MODE: v.optional(v.boolean()),
 });
 ```
@@ -91,14 +93,12 @@ import { v } from "convex/values";
 
 export const env = createEnv({
   schema: {
-    CONVEX_SITE_URL: v.string(),
-    MAX_REQUESTS_PER_USER: v.number(),
+    FREE_REQUESTS_PER_USER: v.number(),
     DEBUG_MODE: v.optional(v.boolean()),
   },
   // optional, defaults to process.env
   values: {
-    CONVEX_SITE_URL: process.env.CONVEX_SITE_URL,
-    MAX_REQUESTS_PER_USER: process.env.MAX_REQUESTS_PER_USER,
+    FREE_REQUESTS_PER_USER: process.env.FREE_REQUESTS_PER_USER,
     DEBUG_MODE: process.env.DEBUG_MODE,
   },
 });
@@ -113,8 +113,7 @@ import { createEnv } from "convex-env";
 import { v } from "convex/values";
 
 export const schema = {
-  CONVEX_SITE_URL: v.string(),
-  MAX_REQUESTS_PER_USER: v.number(),
+  FREE_REQUESTS_PER_USER: v.number(),
   DEBUG_MODE: v.optional(v.boolean()),
 };
 
@@ -133,6 +132,45 @@ import { schema } from "./convex.env";
 import { verifyEnv } from "convex-env";
 
 verifyEnv(schema);
+```
+
+### Presets
+
+I wrote out some presets for commonly used pairs of variables. Below is a complete list of all exports from `convex-env/presets`.
+
+- oAuth
+  - everything supported by [better-auth](https://www.better-auth.com)
+- environment
+  - "development", "preview", or "production"
+- [clerk](https://docs.convex.dev/auth/clerk)
+- [workOS](https://docs.convex.dev/auth/authkit/),
+- [betterAuth](https://labs.convex.dev/better-auth)
+- [auth0](https://docs.convex.dev/auth/auth0)
+- [resend](https://www.convex.dev/components/resend)
+- [r2](https://www.convex.dev/components/cloudflare-r2)
+- [stripe](https://www.convex.dev/components/stripe)
+- [autumn](https://www.convex.dev/components/autumn)
+- [dodo](https://www.convex.dev/components/dodopayments)
+- [polar](https://www.convex.dev/components/polar)
+- [uploadthing](https://docs.uploadthing.com/)
+- [upstash](https://upstash.com/docs/redis)
+
+```typescript
+// convex/convex.env.ts
+
+import { createEnv } from "convex-env";
+import { oAuth, betterAuth, polar, r2 } from "convex-env/presets";
+
+export const env = createEnv({
+  ...betterAuth,
+  ...oAuth.google,
+  ...oAuth.github,
+  ...polar,
+  ...r2,
+  OPENAI_API_KEY: v.string(),
+  FREE_REQUESTS_PER_USER: v.number(),
+  DEBUG_MODE: v.optional(v.boolean()),
+});
 ```
 
 ### Why use it?

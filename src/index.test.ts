@@ -1,6 +1,7 @@
 import { expect, test } from "vitest";
 import { v } from "convex/values";
 import { createEnv, verifyEnv } from "./index";
+import { oAuth } from "./presets";
 
 const siteUrl = "https://convex-env.convex.site";
 const cloudUrl = "https://convex-env.convex.cloud";
@@ -13,8 +14,11 @@ test("basic usage with process.env", async () => {
     ENVIRONMENT: "development",
     CONVEX_SITE_URL: siteUrl,
     CONVEX_CLOUD_URL: cloudUrl,
+    GOOGLE_CLIENT_ID: "123",
+    GOOGLE_CLIENT_SECRET: "456",
   };
   const env = createEnv({
+    ...oAuth.google,
     STR: v.string(),
     NUM: v.number(),
     BOOL: v.boolean(),
@@ -166,7 +170,7 @@ test("union validator with invalid value", async () => {
       ENVIRONMENT: v.union(v.literal("development"), v.literal("production")),
     })
   ).toThrow(
-    "Error creating environment variable ENVIRONMENT: Variable failed validation"
+    "Error creating environment variable ENVIRONMENT: Variable failed to validated as type: union"
   );
 });
 

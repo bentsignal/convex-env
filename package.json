@@ -6,6 +6,7 @@
   "description": "Type-safe access to environment variables in Convex",
   "exports": {
     ".": "./dist/index.mjs",
+    "./presets": "./dist/presets.mjs",
     "./package.json": "./package.json"
   },
   "keywords": [

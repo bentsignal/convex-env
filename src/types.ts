@@ -33,4 +33,12 @@ type CreateEnvOptions = {
   skipValidation?: boolean;
 };
 
-export type { AllowedValidators, InferredOuput, Values, CreateEnvOptions };
+type Prettify<T> = { [K in keyof T]: T[K] } & {};
+
+export type {
+  AllowedValidators,
+  InferredOuput,
+  Values,
+  CreateEnvOptions,
+  Prettify,
+};
