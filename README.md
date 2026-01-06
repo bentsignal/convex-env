@@ -148,6 +148,7 @@ I wrote out some presets for commonly used pairs of variables. Below is a comple
 - [auth0](https://docs.convex.dev/auth/auth0)
 - [resend](https://www.convex.dev/components/resend)
 - [r2](https://www.convex.dev/components/cloudflare-r2)
+- [aws](https://aws.amazon.com/sdk-for-javascript/)
 - [stripe](https://www.convex.dev/components/stripe)
 - [autumn](https://www.convex.dev/components/autumn)
 - [dodo](https://www.convex.dev/components/dodopayments)
