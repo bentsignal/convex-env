@@ -19,7 +19,6 @@ Validators currently supported:
 You can use `v.optional()` on _any_ supported validator, see [examples](#usage) below
 
 <span style="color: red;"><strong>IMPORTANT</strong></span>: The <code>env</code> object from <code>createEnv</code> should only be used in the Convex runtime, the values on it will not be accessible client-side.
-MA
 
 ### Installation
 
