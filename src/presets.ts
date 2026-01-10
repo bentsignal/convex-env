@@ -68,6 +68,13 @@ export const r2 = {
   R2_BUCKET: v.string(),
 };
 
+/** AWS credentials for use with AWS SDK */
+export const aws = {
+  AWS_ACCESS_KEY_ID: v.string(),
+  AWS_SECRET_ACCESS_KEY: v.string(),
+  AWS_REGION: v.string(),
+};
+
 /** Get started with stripe here:
  * https://www.convex.dev/components/stripe
  */
