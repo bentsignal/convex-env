@@ -1,5 +1,11 @@
 # convex-env
 
+## 2.4.0
+
+### Minor Changes
+
+- [#9](https://github.com/bentsignal/convex-env/pull/9) [`9489159`](https://github.com/bentsignal/convex-env/commit/94891597dc22caf39bad200e88f24f2d92ce8275) Thanks [@jsadoski-rockhall](https://github.com/jsadoski-rockhall)! - Add AWS credentials preset with AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_REGION
+
 ## 2.3.0
 
 ### Minor Changes
