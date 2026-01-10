@@ -141,13 +141,13 @@ I wrote out some presets for commonly used pairs of variables. Below is a comple
   - everything supported by [better-auth](https://www.better-auth.com)
 - environment
   - "development", "preview", or "production"
+- [aws](https://aws.amazon.com/sdk-for-javascript/)
 - [clerk](https://docs.convex.dev/auth/clerk)
 - [workOS](https://docs.convex.dev/auth/authkit/),
 - [betterAuth](https://labs.convex.dev/better-auth)
 - [auth0](https://docs.convex.dev/auth/auth0)
 - [resend](https://www.convex.dev/components/resend)
 - [r2](https://www.convex.dev/components/cloudflare-r2)
-- [aws](https://aws.amazon.com/sdk-for-javascript/)
 - [stripe](https://www.convex.dev/components/stripe)
 - [autumn](https://www.convex.dev/components/autumn)
 - [dodo](https://www.convex.dev/components/dodopayments)
