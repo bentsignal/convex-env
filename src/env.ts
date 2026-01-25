@@ -37,11 +37,11 @@ import { transformed } from "./transform";
  * import { betterAuth, oAuth, r2 } from "convex-env/presets";
  *
  * const env = createEnv({
- *   ...betterAuth,
- *   ...oAuth.google,
- *   ...oAuth.apple,
- *   ...r2,
  *   schema: {
+ *     ...oAuth.apple,
+ *     ...oAuth.google,
+ *     ...betterAuth,
+ *     ...r2,
  *     OPENAI_API_KEY: v.string(),
  *     FREE_REQUESTS_PER_USER: v.number(),
  *     DEBUG_MODE: v.optional(v.boolean()),
