@@ -1,5 +1,11 @@
 # convex-env
 
+## 2.4.1
+
+### Patch Changes
+
+- [`3cc27e9`](https://github.com/bentsignal/convex-env/commit/3cc27e9d38df7fba3cd9a2b0c039c33d6e7a8810) Thanks [@bentsignal](https://github.com/bentsignal)! - Corrected docs example on using presets with the explicit schema argument
+
 ## 2.4.0
 
 ### Minor Changes
