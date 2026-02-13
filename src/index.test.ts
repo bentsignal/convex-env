@@ -46,7 +46,7 @@ test("missing required variable with process.env", async () => {
       },
     })
   ).toThrow(
-    "Error creating environment variable NUM: Variable is required but not found in env"
+    "Invalid environment variables:\n\n  NUM: Variable is required but not found in env"
   );
 });
 
@@ -72,6 +72,21 @@ test("basic usage with explicit values passed in", async () => {
   });
 });
 
+test("multiple invalid variables reported together", async () => {
+  expect(() =>
+    createEnv({
+      schema: {
+        FOO: v.string(),
+        BAR: v.number(),
+        BAZ: v.boolean(),
+      },
+      values: {},
+    })
+  ).toThrow(
+    "Invalid environment variables:\n\n  FOO: Variable is required but not found in env\n  BAR: Variable is required but not found in env\n  BAZ: Variable is required but not found in env"
+  );
+});
+
 test("required variable is missing with values passed in", async () => {
   expect(() =>
     createEnv({
@@ -84,7 +99,7 @@ test("required variable is missing with values passed in", async () => {
       },
     })
   ).toThrow(
-    "Error creating environment variable FOO: Variable is required but not found in env"
+    "Invalid environment variables:\n\n  FOO: Variable is required but not found in env"
   );
 });
 
@@ -98,7 +113,7 @@ test("passing in empty string", async () => {
         NUM: "   ",
       },
     })
-  ).toThrow("Error creating environment variable NUM: Value is empty");
+  ).toThrow("Invalid environment variables:\n\n  NUM: Value is empty");
 });
 
 test("invalid boolean string", async () => {
@@ -112,7 +127,7 @@ test("invalid boolean string", async () => {
       },
     })
   ).toThrow(
-    "Error creating environment variable NUM: Value is not a valid boolean"
+    "Invalid environment variables:\n\n  NUM: Value is not a valid boolean"
   );
 });
 
@@ -144,7 +159,7 @@ test("skip validation with missing required variable", async () => {
     })
   ).not.toThrow();
   expect(() => verifyEnv(schema)).toThrow(
-    "Error verifying environment variable BOOL: Variable is required but not found in env"
+    "Invalid environment variables:\n\n  BOOL: Variable is required but not found in env"
   );
 });
 
@@ -157,7 +172,7 @@ test("union validator with missing required variable", async () => {
       ENVIRONMENT: v.union(v.literal("development"), v.literal("production")),
     })
   ).toThrow(
-    "Error creating environment variable ENVIRONMENT: Variable is required but not found in env"
+    "Invalid environment variables:\n\n  ENVIRONMENT: Variable is required but not found in env"
   );
 });
 
@@ -170,7 +185,7 @@ test("union validator with invalid value", async () => {
       ENVIRONMENT: v.union(v.literal("development"), v.literal("production")),
     })
   ).toThrow(
-    "Error creating environment variable ENVIRONMENT: Variable failed to validated as type: union"
+    "Invalid environment variables:\n\n  ENVIRONMENT: Variable failed to validate as type: union"
   );
 });
 
@@ -185,7 +200,7 @@ test("cannot override CONVEX_SITE_URL or CONVEX_CLOUD_URL", async () => {
       },
     })
   ).toThrow(
-    "Error creating environment variable CONVEX_SITE_URL: Cannot override CONVEX_SITE_URL or CONVEX_CLOUD_URL"
+    "Invalid environment variables:\n\n  CONVEX_SITE_URL: Cannot override CONVEX_SITE_URL or CONVEX_CLOUD_URL"
   );
   expect(() =>
     createEnv({
@@ -197,6 +212,6 @@ test("cannot override CONVEX_SITE_URL or CONVEX_CLOUD_URL", async () => {
       },
     })
   ).toThrow(
-    "Error creating environment variable CONVEX_CLOUD_URL: Cannot override CONVEX_SITE_URL or CONVEX_CLOUD_URL"
+    "Invalid environment variables:\n\n  CONVEX_CLOUD_URL: Cannot override CONVEX_SITE_URL or CONVEX_CLOUD_URL"
   );
 });

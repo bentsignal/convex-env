@@ -35,10 +35,13 @@ type CreateEnvOptions = {
 
 type Prettify<T> = { [K in keyof T]: T[K] } & {};
 
+type EnvIssue = { variable: string; reason: string };
+
 export type {
   AllowedValidators,
   InferredOuput,
   Values,
   CreateEnvOptions,
   Prettify,
+  EnvIssue,
 };

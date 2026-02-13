@@ -4,9 +4,11 @@ import type {
   Values,
   CreateEnvOptions,
   Prettify,
+  EnvIssue,
 } from "./types";
 import { validate } from "convex-helpers/validators";
 import { transformed } from "./transform";
+import { formatEnvErrors } from "./utils";
 
 /**
  *
@@ -102,56 +104,67 @@ const createEnv = <Schema extends Record<string, AllowedValidators>>(
   }
 
   const values = inputValues ?? process.env;
+  const issues: EnvIssue[] = [];
+  const entries: Array<[keyof Schema, InferredOuput<Schema[keyof Schema]>]> =
+    [];
 
-  return Object.keys(schema)
-    .map((key) => {
-      try {
-        if (key === "CONVEX_SITE_URL" || key === "CONVEX_CLOUD_URL") {
-          throw new Error(
-            "Cannot override CONVEX_SITE_URL or CONVEX_CLOUD_URL"
-          );
-        }
-        const validator = schema[key];
-        const envValue = values[key as string];
-        if (
-          validator.isOptional === "required" &&
-          envValue === undefined &&
-          options?.skipValidation !== true
-        ) {
-          throw new Error("Variable is required but not found in env");
-        }
-        const transformedValue = transformed(envValue, validator);
-        const valueIsInvalid = validate(validator, transformedValue) === false;
-        if (valueIsInvalid && options?.skipValidation !== true) {
-          throw new Error(
-            `Variable failed to validated as type: ${validator.kind}`
-          );
-        }
-        return [key, transformedValue as InferredOuput<typeof validator>] as [
-          keyof Schema,
-          InferredOuput<typeof validator>,
-        ];
-      } catch (error) {
-        const errorMessage =
-          error instanceof Error ? error.message : String(error);
-        throw new Error(
-          `Error creating environment variable ${key as string}: ${errorMessage}`
-        );
+  for (const key of Object.keys(schema)) {
+    try {
+      if (key === "CONVEX_SITE_URL" || key === "CONVEX_CLOUD_URL") {
+        issues.push({
+          variable: key,
+          reason: "Cannot override CONVEX_SITE_URL or CONVEX_CLOUD_URL",
+        });
+        continue;
       }
-    })
-    .reduce(
-      (acc, [key, value]) => {
-        acc[key] = value;
-        return acc;
-      },
-      {
-        CONVEX_SITE_URL: process.env.CONVEX_SITE_URL,
-        CONVEX_CLOUD_URL: process.env.CONVEX_CLOUD_URL,
-      } as { [K in keyof Schema]: InferredOuput<Schema[K]> } & {
-        CONVEX_SITE_URL: string;
-        CONVEX_CLOUD_URL: string;
+      const validator = schema[key];
+      const envValue = values[key as string];
+      if (
+        validator.isOptional === "required" &&
+        envValue === undefined &&
+        options?.skipValidation !== true
+      ) {
+        issues.push({
+          variable: key,
+          reason: "Variable is required but not found in env",
+        });
+        continue;
       }
-    );
+      const transformedValue = transformed(envValue, validator);
+      const valueIsInvalid = validate(validator, transformedValue) === false;
+      if (valueIsInvalid && options?.skipValidation !== true) {
+        issues.push({
+          variable: key,
+          reason: `Variable failed to validate as type: ${validator.kind}`,
+        });
+        continue;
+      }
+      entries.push([
+        key as keyof Schema,
+        transformedValue as InferredOuput<typeof validator>,
+      ]);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      issues.push({ variable: key, reason: errorMessage });
+    }
+  }
+
+  if (issues.length > 0) {
+    throw new Error(formatEnvErrors(issues));
+  }
+
+  const result = {
+    CONVEX_SITE_URL: process.env.CONVEX_SITE_URL,
+    CONVEX_CLOUD_URL: process.env.CONVEX_CLOUD_URL,
+    ...Object.fromEntries(entries),
+  } as Prettify<
+    { [K in keyof Schema]: InferredOuput<Schema[K]> } & {
+      CONVEX_SITE_URL: string;
+      CONVEX_CLOUD_URL: string;
+    }
+  >;
+  return result;
 };
 
 /**
@@ -199,25 +212,38 @@ const verifyEnv = <Schema extends Record<string, AllowedValidators>>(
   }
 
   const values = inputValues ?? process.env;
+  const issues: EnvIssue[] = [];
 
-  Object.keys(schema).map((key) => {
+  for (const key of Object.keys(schema)) {
     try {
       const validator = schema[key];
       const envValue = values[key as string];
       if (validator.isOptional === "required" && envValue === undefined) {
-        throw new Error("Variable is required but not found in env");
+        issues.push({
+          variable: key,
+          reason: "Variable is required but not found in env",
+        });
+        continue;
       }
       const transformedValue = transformed(envValue, validator);
       const valueIsInvalid = validate(validator, transformedValue) === false;
-      if (valueIsInvalid) throw new Error(`Variable failed validation`);
+      if (valueIsInvalid) {
+        issues.push({
+          variable: key,
+          reason: `Variable failed to validate as type: ${validator.kind}`,
+        });
+        continue;
+      }
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : String(error);
-      throw new Error(
-        `Error verifying environment variable ${key as string}: ${errorMessage}`
-      );
+      issues.push({ variable: key, reason: errorMessage });
     }
-  });
+  }
+
+  if (issues.length > 0) {
+    throw new Error(formatEnvErrors(issues));
+  }
 };
 
 export { createEnv, verifyEnv };
