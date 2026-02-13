@@ -1,5 +1,11 @@
 # convex-env
 
+## 2.5.0
+
+### Minor Changes
+
+- [`2a2fbd1`](https://github.com/bentsignal/convex-env/commit/2a2fbd14f735245c1a5a60e4f5a0bc1ae713aaaf) Thanks [@bentsignal](https://github.com/bentsignal)! - Better formatting of errors, show all errors instead of throwing at first
+
 ## 2.4.1
 
 ### Patch Changes
