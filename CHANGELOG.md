@@ -1,5 +1,11 @@
 # convex-env
 
+## 3.0.0
+
+### Major Changes
+
+- [`796bc7d`](https://github.com/bentsignal/convex-env/commit/796bc7d571f0a65218c8472f0f54ddddf214d147) Thanks [@bentsignal](https://github.com/bentsignal)! - Narrow `POLAR_SERVER` type in the polar preset from `string` to `"production" | "sandbox"`
+
 ## 2.5.0
 
 ### Minor Changes
