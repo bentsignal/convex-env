@@ -107,7 +107,7 @@ export const dodo = {
  */
 export const polar = {
   POLAR_ORGANIZATION_TOKEN: v.string(),
-  POLAR_SERVER: v.string(),
+  POLAR_SERVER: v.union(v.literal("production"), v.literal("sandbox")),
   POLAR_WEBHOOK_SECRET: v.string(),
 };
 
