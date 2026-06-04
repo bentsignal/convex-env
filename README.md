@@ -6,7 +6,7 @@
 <p align="center">Type-safe access to environment variables in Convex</p>
 
 > [!IMPORTANT]
-> This library is no longer necessary, this functionality has been [added](https://x.com/bentsignal/status/2055390672748695873) to Convex.
+> This library is no longer necessary, the feature was [introduced](https://x.com/bentsignal/status/2055390672748695873) to convex-js in version [1.39.0](https://github.com/get-convex/convex-js/blob/main/CHANGELOG.md).
 
 ### Overview
 
