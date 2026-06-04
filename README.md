@@ -5,6 +5,9 @@
 <h2 align="center">Convex Env</h2>
 <p align="center">Type-safe access to environment variables in Convex</p>
 
+> [!IMPORTANT]
+> This library is no longer necessary, this functionality has been [added](https://x.com/bentsignal/status/2055390672748695873) to Convex.
+
 ### Overview
 
 Similar to [t3-env](https://github.com/t3-oss/t3-env), but native to [Convex](https://www.convex.dev).
@@ -17,8 +20,6 @@ Validators currently supported:
 - v.union() + v.literal() (strings only)
 
 You can use `v.optional()` on _any_ supported validator, see [examples](#usage) below
-
-<span style="color: red;"><strong>IMPORTANT</strong></span>: The <code>env</code> object from <code>createEnv</code> should only be used in the Convex runtime, the values on it will not be accessible client-side.
 
 ### Installation
 
